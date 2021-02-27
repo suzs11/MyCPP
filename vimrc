@@ -52,6 +52,8 @@ map S :w<CR>
 map Q :q<CR>
 map R :source $MYVIMRC<CR>
 
+map r :MarkdownPreview<CR>
+
 
 "fortran语言制表符设置
 let fortran_have_tabs=1
@@ -65,7 +67,7 @@ inoremap ' ''<ESC>i
 inoremap " ""<ESC>i
 inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
-inoremap { {<CR>}<ESC>O
+inoremap { {}<ESC>i
 
 call plug#begin('~/.vim/plugged')
 " alternatively, pass a path where Vundle should install plugins
@@ -146,8 +148,11 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.vim'
 
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'vimwiki/vimwiki'
+
 
 call plug#end()
 
@@ -215,7 +220,7 @@ let g:instant_markdown_mathjax = 1
 let g:instant_markdown_browser = 'firefox --new-window'
 let g:instant_markdown_port = 8888
 let g:instant_markdown_autoscroll = 0
-
+source ~/.vim/snippite.vim
 
 
 
@@ -229,6 +234,9 @@ au Filetype python set autoindent
 au Filetype python set fileformat=unix
 autocmd Filetype python set foldmethod=indent
 autocmd Filetype python set foldlevel=99
+
+autocmd FileType octave setlocal keywordprg=xterm\ -e\ info\ octave\ --vi-keys\ --index-search
+
 map <F5> :call RunPython()<CR>
 func! RunPython()
         exec "W"
@@ -251,12 +259,13 @@ func! RunPython()
         elseif &filetype == 'go'
                 " exec "!go build %<"
                 exec "!time go run %"
-        elseif &filetype == 'mkd'
-                exec "!~/.vim/markdown.pl % > %.html &"
-                exec "!firefox %.html &"
+        elseif &filetype == 'markdown'
+                exec "MarkdownPreview"
+		elseif &filetype == 'vimwiki'
+	            exec "MarkdownPrevie"		
         elseif &filetype =='fortran'
-               exec	"!gfortran  %"		
-               exec "!time ./a.out"
+                exec	"!gfortran  %"		
+                exec "!time ./a.out"
         endif
 endfunc
 
@@ -291,3 +300,7 @@ let g:vimtex_compiler_latexmk_engines = {
         \ 'context (luatex)' : '-pdf -pdflatex=context',
         \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
     \}
+
+
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
