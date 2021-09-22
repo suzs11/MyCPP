@@ -38,6 +38,14 @@ set vb t_vb=                  "当vim进行编辑时，如果命令错误，会�
 set ruler                     "在编辑过程中，在右下角显示光标位置的状态行     
 set nohls                     "默认情况下，寻找匹配是高亮度显示，该设置关闭高亮显示     
 set incsearch                 "在程序中查询一单词，自动匹配单词的位置；如查询desk单词，当输到/d时，会自动找到第一个d开头的单词，当输入到/de时，会自动找到第一个以ds开头的单词，以此类推，进行查找；当找到要匹配的单词时，别忘记回车 
+"set expandtab
+set tabstop=2
+"set shiftwidth=2
+"set softtabstop=2
+"set list
+"set scrolloff=5
+
+
 
 map sl :set splitright<CR>:vsplit<CR>
 map sh :set nosplitright<CR>:vsplit<CR>
@@ -45,12 +53,37 @@ map sk :set nosplitbelow<CR>:split<CR>
 map sj :set splitbelow<CR>:split<CR>
 
 map tn :tabe<CR>
-map th :-tabnext<CR>
-map tl :+tabnext<CR>
+map th :+tabnext<CR>
+map tl :-tabnext<CR>
 
 map S :w<CR>
 map Q :q<CR>
 map R :source $MYVIMRC<CR>
+map T :bo term<CR>
+
+
+
+map <LEADER>l <C-w>l
+map <LEADER>k <C-w>k
+map <LEADER>h <C-w>h
+map <LEADER>j <C-w>j
+
+
+"map <up> :res +5<CR>
+"map <down> :res -5<CR>
+map <left> :vertical resize+5<CR>
+map <right> :vertical resize-5<CR>
+
+
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>K
+
+
+noremap = nzz
+noremap - Nzz
+noremap J 5j
+noremap K 5k
+
 
 map r :MarkdownPreview<CR>
 
@@ -73,7 +106,7 @@ call plug#begin('~/.vim/plugged')
 " alternatively, pass a path where Vundle should install plugins
 " Make sure you use single quotes
 Plug 'vim-airline/vim-airline'
-"Plug 'connorholyday/vim-snazzy'
+Plug 'connorholyday/vim-snazzy'
 Plug 'lervag/vimtex'
 "Plug 'vim-latex/vim-latex'
 "Plug 'jcf/vim-latex'
@@ -153,11 +186,18 @@ Plug 'iamcco/markdown-preview.vim'
 
 Plug 'vimwiki/vimwiki'
 
+Plug 'yinflying/matlab.vim'
 
 call plug#end()
 
+let g:SnazzyTransparent = 1
 
 " 设置youcompleteme
+let g:ycm_autoclose_preview_window_after_completion=0
+let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_use_clangd = 0
+let g:ycm_python_interpreter_path="/home/lenovo/Soft/anaconda3/bin/python3"
+let g:ycm_python_binary_path = "/home/lenovo/Soft/anaconda3/bin/python3"
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
@@ -204,6 +244,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 
 
 
+
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
@@ -220,7 +261,7 @@ let g:instant_markdown_mathjax = 1
 let g:instant_markdown_browser = 'firefox --new-window'
 let g:instant_markdown_port = 8888
 let g:instant_markdown_autoscroll = 0
-source ~/.vim/snippite.vim
+
 
 
 
@@ -234,9 +275,6 @@ au Filetype python set autoindent
 au Filetype python set fileformat=unix
 autocmd Filetype python set foldmethod=indent
 autocmd Filetype python set foldlevel=99
-
-autocmd FileType octave setlocal keywordprg=xterm\ -e\ info\ octave\ --vi-keys\ --index-search
-
 map <F5> :call RunPython()<CR>
 func! RunPython()
         exec "W"
@@ -259,13 +297,12 @@ func! RunPython()
         elseif &filetype == 'go'
                 " exec "!go build %<"
                 exec "!time go run %"
-        elseif &filetype == 'markdown'
-                exec "MarkdownPreview"
-		elseif &filetype == 'vimwiki'
-	            exec "MarkdownPrevie"		
+        elseif &filetype == 'mkd'
+                exec "!~/.vim/markdown.pl % > %.html &"
+                exec "!firefox %.html &"
         elseif &filetype =='fortran'
-                exec	"!gfortran  %"		
-                exec "!time ./a.out"
+               exec	"!gfortran  %"		
+               exec "!time ./a.out"
         endif
 endfunc
 
@@ -304,3 +341,11 @@ let g:vimtex_compiler_latexmk_engines = {
 
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+
+"matlab插件的配置
+let g:syntastic_matlab_mlint_option='-config=[setting.txt] -id'
+autocmd BufEnter *.m    compiler mlint
+source $VIMRUNTIME/macros/matchit.vim
+au FileType matlab map <buffer> <silent> <F5> :w<CR>:!matlab -nodesktop -nosplash -r "try, run(which('%')), end, quit" <CR><CR>
+au FileType matlab set foldmethod=syntax foldcolumn=2 foldlevel=33
