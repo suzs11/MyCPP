@@ -5,3 +5,5 @@
 /CPP/Intr_Cpp/*
 !/Cpp/Intr_Cpp/*.cpp
 
+/CPP/Template/*
+!/CPP/Template/*.cpp
