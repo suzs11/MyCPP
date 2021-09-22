@@ -1,0 +1,7 @@
+/CPP/Cpp_core/*
+!/CPP/Cpp_core/*.cpp
+!/CPP/Cpp_core/*.svg
+
+/CPP/Intr_Cpp/*
+!/Cpp/Intr_Cpp/*.cpp
+
