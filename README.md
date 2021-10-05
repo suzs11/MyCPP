@@ -1,2 +1,2 @@
 # C++
-### This is my cpp repository, all the codes are written by me 
+### This is my cpp repository, the codes are written by me 
