@@ -1,9 +1,12 @@
 /CPP/Cpp_core/*
 !/CPP/Cpp_core/*.cpp
 !/CPP/Cpp_core/*.svg
+/CPP/Cpp_core/.vsocde
 
 /CPP/Intr_Cpp/*
 !/Cpp/Intr_Cpp/*.cpp
+/CPP/Intr_CPP/.vscode
 
 /CPP/Template/*
 !/CPP/Template/*.cpp
+/CPP/Template/.vscode
