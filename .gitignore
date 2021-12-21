@@ -10,3 +10,4 @@
 /CPP/Template/*
 !/CPP/Template/*.cpp
 /CPP/Template/.vscode
+*.zip
