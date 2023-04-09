@@ -181,8 +181,9 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
-Plug 'iamcco/mathjax-support-for-mkdp'
-Plug 'iamcco/markdown-preview.vim'
+"Plug 'iamcco/mathjax-support-for-mkdp'
+"Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.nvim',{ 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 
 Plug 'vimwiki/vimwiki'
 
@@ -251,16 +252,31 @@ let g:UltiSnipsExpandTrigger="<tab>"
 set grepprg=grep\ -nH\ $*
 
 
-let g:instant_markdown_slow = 1
-let g:instant_markdown_autostart = 0
-let g:instant_markdown_open_to_the_world = 1
-let g:instant_markdown_allow_unsafe_content = 1
-let g:instant_markdown_allow_external_content = 0
-let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
-let g:instant_markdown_mathjax = 1
-let g:instant_markdown_browser = 'firefox --new-window'
-let g:instant_markdown_port = 8888
-let g:instant_markdown_autoscroll = 0
+" ===
+" === MarkdownPreview
+" ===
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_command_for_global = 0
+let g:mkdp_open_to_the_world = 0
+let g:mkdp_open_ip = ''
+let g:mkdp_browser = 'google-chrome'
+let g:mkdp_echo_preview_url = 0
+let g:mkdp_browserfunc = ''
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1
+    \ }
+let g:mkdp_markdown_css = ''
+let g:mkdp_highlight_css = ''
+let g:mkdp_port = ''
+let g:mkdp_page_title = '「${name}」'
 
 
 
